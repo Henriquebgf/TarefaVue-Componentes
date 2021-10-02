@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <!-- Luis Henrique Barbosa Gomes Filho-->
+  <head>
+    <title>Exemplo Vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <br>
+      <h1>Diário Escolar   </h1><br>
+
+      <label for="id"><strong>ID:</strong></label>
+      <input id="id" type="text" v-model="aluno.id" placeholder="código" />
+      <label for="turno"><strong>Turno:</strong></label>
+      <select id="turno" name="turno" v-model="aluno.turno" placeholder="turno">
+        <option value="manhã">Manhã</option>
+        <option value="tarde">Tarde</option>
+        <option value="noite">Noite</option>
+        <option value="integral">Integral</option>
+      </select>
+      <label for="nome"><strong>Nome:</strong></label>
+      <input  id="nome" type="text" v-model="aluno.nome" placeholder="nome" />
+      <label for="nota" ><strong>Nota:</strong></label>
+      <input id="nota"  min="0" max="100" type="number" v-model="aluno.nota" placeholder="nota" />
+      <label for="curso"><strong>Curso:</strong></label>
+      <input id="curso" type="text" v-model="aluno.curso" placeholder="curso" />
+      <button @click="adicionoAluno()" >adicionar</button>
+
+      <aluno
+        v-for="a in alunos"
+        v-bind:key="a.id"
+        :id="a.id"
+        :turno="a.turno"
+        :nome="a.nome"
+        :nota="a.nota"
+        :curso="a.curso"
+      ></aluno>
+    </div>
+  </body>
+  <script>
+    Vue.component("aluno", {
+      props: ["id", "turno", "nome", "nota", "curso"],
+      data: function () {
+        return {};
+      },
+      template:
+        "<div>" +
+        '  <div class="aluno">' +
+        '    <div class="aluno-info">' +
+                '<hr>' +
+        "      <h4>{{ nome }}<br></h4>" +
+        "       <strong>ID:</strong> {{id}} <br> " +
+        "       <strong>curso:</strong> {{curso}}  " +
+        "        <strong>turno:</strong> {{turno}}<br>" +
+        "      <strong>nota:</strong> {{nota}}  -> " +
+        '      <span v-if="nota>= 7"> <strong> aprovado!</strong></span>' +
+        "     <span v-else>  <strong>Situação: reprovado!</strong></span> " +
+        "    </div> " +
+        "  </div>  " +
+        "  </div>  ",
+    });
+    var app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          aluno: {
+            id: 0, turno: "", nome: "", nota: 0, curso: ""
+          },
+
+          alunos: [
+            { id: 1, turno: "manhã", nome: "Camila Pereira", nota: 4, curso: "Sistemas de Informação" },
+            { id: 2, turno: "tarde", nome: "Eduardo Silva", nota: 7.7, curso: "Engenharia da Computação" },
+          ],
+
+          current: 0,
+        };
+      },
+      methods: {
+        adicionoAluno() {
+          this.alunos.push(
+            { id: this.aluno.id,
+              turno: this.aluno.turno,
+              nome: this.aluno.nome,
+              nota: this.aluno.nota,
+              curso: this.aluno.curso
+            }
+          );
+        },
+      },
+    });
+  </script>
+</html>
